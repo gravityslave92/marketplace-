@@ -5,6 +5,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :products, dependent: :destroy
+
   validates_uniqueness_of :auth_token
 
   def generate_authentification_token!

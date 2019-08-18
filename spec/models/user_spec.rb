@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-   before { @user = FactoryBot.build(:user) }
+  before { @user = FactoryBot.build(:user) }
   subject { @user }
 
   it { should respond_to(:email) }
@@ -10,6 +10,7 @@ RSpec.describe User, type: :model do
   it { should be_valid }
   it { should respond_to(:auth_token) }
   it { should validate_uniqueness_of(:auth_token) }
+  it { should have_many(:products) }
 
   describe "#generate_authentification_token!" do
     it "generates a unique token" do
@@ -21,6 +22,21 @@ RSpec.describe User, type: :model do
       existing_user = FactoryBot.create(:user, auth_token: "auniquetoken123")
       @user.generate_authentification_token!
       expect(@user.auth_token).not_to eql(existing_user.auth_token)
+    end
+  end
+
+  describe '#products association' do
+    before do
+      @user.save
+      3.times { FactoryBot.create(:product, user: @user) }
+    end
+
+    it 'destroys the association products on self destruct' do
+      products = @user.products
+      @user.destroy
+      products.each do |product|
+        expect { Product.find(product.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 end

@@ -12,6 +12,8 @@ gem 'puma', '~> 3.11'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development, :test do
+  gem 'factory_bot_rails', '~> 4.9'
+  gem 'ffaker', '~> 2.10'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
@@ -24,9 +26,8 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-collection_matchers', '~> 1.1'
   gem 'shoulda-matchers'
-  gem 'factory_bot_rails', '~> 4.9'
-  gem 'ffaker', '~> 2.10'
 end
 
 

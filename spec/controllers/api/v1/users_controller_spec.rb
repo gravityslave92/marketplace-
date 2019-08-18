@@ -9,6 +9,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     it 'returns the information about a reporter on a hash' do
       expect(json_response[:email]).to eql(@user.email)
+      expect(json_response[:product_ids]).to eql []
     end
 
     it { expect(response).to be_success }
